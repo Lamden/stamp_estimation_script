@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "stamp_estimation_script"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+authors = ["Dapiguabc <dapiguabc@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+contracting = "^1.0.5"
+requests = "^2.27.1"
+aiohttp = "^3.8.1"
+python-socketio = "^5.5.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "Aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
