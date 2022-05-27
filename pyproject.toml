@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "stamp_estimation_script"
-version = "0.1.0"
-description = ""
+version = "1.0"
+description = "A microservice wrapper for Lamden Contracting to allow running transactions against blockservice current state."
 readme = "README.md"
 authors = ["Dapiguabc <dapiguabc@gmail.com>"]
 
