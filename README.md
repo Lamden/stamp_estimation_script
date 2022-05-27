@@ -62,5 +62,5 @@ port=3232    # port number
 ```
 poetry run python ./setup.py # Default use config.dev.ini
 
-poetry run PYTHON_ENV="production" python ./setup.py # Will use config.ini
+PYTHON_ENV="production" poetry run python ./setup.py # Will use config.ini
 ```
