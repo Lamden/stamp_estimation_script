@@ -11,9 +11,9 @@ class TxExecutor:
     def __init__(self, executor: Executor):
         self.executor = executor
 
-    def generate_environment(self, input_hash='0'*64, bhash='0' * 64, num=1):
+    def generate_environment(self, timestamp, input_hash='0'*64, bhash='0' * 64, num=1):
         now = Datetime._from_datetime(
-            datetime.now()
+            datetime.utcfromtimestamp(timestamp)
         )
 
         return {
@@ -55,12 +55,9 @@ class TxExecutor:
             # Calculate only stamp deductions
             to_deduct = output['stamps_used'] / stamp_cost
 
-            if balance is None:
-                balance = 0
-
             writes = [{
                 'key': 'currency.balances:{}'.format(transaction['payload']['sender']),
-                'value': max(balance - to_deduct, 0)
+                'value': balance - to_deduct
             }]
 
         tx_output = {
@@ -76,7 +73,7 @@ class TxExecutor:
         return tx_output
 
     def execute(self, transaction):
-        environment = self.generate_environment()
+        environment = self.generate_environment(transaction['metadata']['timestamp'])
         stamp_cost = int(self.executor.driver.get_var(contract='stamp_cost', variable='S', arguments=['value']))
         return self.execute_tx(
             transaction = transaction,
