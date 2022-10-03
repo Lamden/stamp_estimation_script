@@ -1,19 +1,18 @@
 from contracting.execution.executor import Executor
-from contracting.db.encoder import encode, safe_repr
+from contracting.db.encoder import safe_repr
 from contracting.stdlib.bridge.time import Datetime
 from datetime import datetime
 
-from script.driver import BlockserviceDriver
-from script.utils import format_dictionary, tx_hash_from_tx
+from script.utils import format_dictionary
 
 
 class TxExecutor:
     def __init__(self, executor: Executor):
         self.executor = executor
 
-    def generate_environment(self, timestamp, input_hash='0'*64, bhash='0' * 64, num=1):
+    def generate_environment(self, input_hash='0'*64, bhash='0' * 64, num=1):
         now = Datetime._from_datetime(
-            datetime.utcfromtimestamp(timestamp)
+            datetime.now()
         )
 
         return {
@@ -25,19 +24,20 @@ class TxExecutor:
 
     def execute_tx(self, transaction, stamp_cost, environment: dict = {}):
 
-        environment['AUXILIARY_SALT'] = transaction['metadata']['signature']
-
         balance = self.executor.driver.get_var(
             contract='currency',
             variable='balances',
             arguments=[transaction['payload']['sender']],
         )
 
+        if balance is None:
+            balance = 0
+
         output = self.executor.execute(
             sender=transaction['payload']['sender'],
             contract_name=transaction['payload']['contract'],
             function_name=transaction['payload']['function'],
-            stamps=transaction['payload']['stamps_supplied'],
+            stamps=balance * stamp_cost,
             stamp_cost=stamp_cost,
             kwargs=transaction['payload']['kwargs'],
             environment=environment,
@@ -47,18 +47,8 @@ class TxExecutor:
 
         self.executor.driver.clear_pending_state()
 
-        # Only apply the writes if the tx passes
-        if output['status_code'] == 0:
-            writes = [{'key': k, 'value': v}
-                      for k, v in output['writes'].items()]
-        else:
-            # Calculate only stamp deductions
-            to_deduct = output['stamps_used'] / stamp_cost
-
-            writes = [{
-                'key': 'currency.balances:{}'.format(transaction['payload']['sender']),
-                'value': balance - to_deduct
-            }]
+        writes = [{'key': k, 'value': v}
+                    for k, v in output['writes'].items()]
 
         tx_output = {
             'transaction': transaction,
@@ -73,7 +63,7 @@ class TxExecutor:
         return tx_output
 
     def execute(self, transaction):
-        environment = self.generate_environment(transaction['metadata']['timestamp'])
+        environment = self.generate_environment()
         stamp_cost = int(self.executor.driver.get_var(contract='stamp_cost', variable='S', arguments=['value']))
         return self.execute_tx(
             transaction = transaction,

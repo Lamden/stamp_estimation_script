@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "stamp_estimation_script"
-version = "0.1.0"
+name = "script"
+version = "0.1.2"
 description = ""
 readme = "README.md"
 authors = ["Dapiguabc <dapiguabc@gmail.com>"]
@@ -23,3 +23,8 @@ build-backend = "poetry.core.masonry.api"
 name = "Aliyun"
 url = "https://mirrors.aliyun.com/pypi/simple/"
 default = true
+
+
+[tool.poetry.scripts]
+start = "script.run:start"
+test = "pytest:main"
