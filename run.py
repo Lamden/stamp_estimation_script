@@ -25,7 +25,7 @@ PORT = config.get('socket', 'port')
 def start():
     c_driver =  ContractDriver(driver = blockService_driver)
     # initital
-    install_contracts(client=ContractingClient(submission_filename=os.path.dirname(__file__) + '/contracts/submission.s.py', driver = c_driver))
+    install_contracts(client=ContractingClient(submission_filename=os.path.dirname(__file__) + '/script/contracts/submission.s.py', driver = c_driver))
     # Start socket server
     run_server(driver=blockService_driver, host=HOST, port=PORT)
 
