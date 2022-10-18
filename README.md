@@ -7,9 +7,16 @@ A script for estimating stamps cost and setup a socket sever to communicate with
 
 1. python 3.6.x (should come with UBUNTU 18.04)
 2. poetry installed. `poetry` is a package manager tool. More detail click [here](https://python-poetry.org/docs)
-```
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-    source $HOME/.poetry/env
+``` 
+    # Install poetry
+    curl -sSL https://install.python-poetry.org -o install-poetry.py
+    python3 install-poetry.py --version 1.1.7
+
+    # Add poetry to environment variable
+    sudo vim /etc/profile # then add `export PATH="/root/.local/bin:$PATH"` to this file
+    source /etc/profile # make it works
+
+    poetry --version # test that everything is set up
 ```
 
 ### Install Dependancies
