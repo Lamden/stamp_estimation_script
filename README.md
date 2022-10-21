@@ -6,41 +6,14 @@ A script for estimating stamps cost and setup a socket sever to communicate with
 **These are install steps for UBUNTU 18.04**
 
 1. python 3.6.x (should come with UBUNTU 18.04)
-2. poetry installed. `poetry` is a package manager tool. More detail click [here](https://python-poetry.org/docs)
-```
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-    source $HOME/.poetry/env
-```
-
-### Install Dependancies
-1. pip3
-```
-    sudo apt-get update
-    sudo apt-get -y install python3-pip
-```
-
-2. python setuptools
-```
-    pip3 install setuptools
-```
-
-2. lamden contracting
-```
-    cd ~
-    git clone https://github.com/Lamden/contracting.git
-    cd contracting
-    git checkout blockservice-driver
-    python3 ./setup.py develop
-```
-
-3. 
+2. docker && docker-compose (Optional)
 
 ### Install
 ```
 cd ~
 git clone https://github.com/Lamden/stamp_estimation_script.git 
 cd stamp_estimation_script/
-poetry install # Installing dependences.
+pip install -r requirements.txt
 
 ```
 
@@ -60,7 +33,28 @@ port=3232    # port number
 
 ### Run
 ```
-poetry run start # Default use config.dev.ini
+python3 run.py # Default use config.dev.ini
 
-PYTHON_ENV="production" poetry run start # Will use config.ini
+ENVIRONMENT="production" python3 run.py # Will use config.ini
+```
+
+
+### Docker (Recommended)
+
+Install docker
+
+```
+curl -fsSL https://get.docker.com | bash -s docker
+```
+
+Then install docker-compose, you can get the latest release at [here](https://github.com/docker/compose/releases)
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+```
+cd stamp_estimation_script/
+docker-compose build
+docker-compose up -d
 ```
