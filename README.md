@@ -40,7 +40,21 @@ ENVIRONMENT="production" python3 run.py # Will use config.ini
 
 
 ### Docker (Recommended)
+
+Install docker
+
 ```
+curl -fsSL https://get.docker.com | bash -s docker
+```
+
+The install docker-compose, you can get the latest release at [here](https://github.com/docker/compose/releases)
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+```
+cd stamp_estimation_script/
 docker-compose build
 docker-compose up -d
 ```
