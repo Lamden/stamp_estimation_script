@@ -2,6 +2,8 @@
 
 A script for estimating stamps cost and setup a socket sever to communicate with [Lamden Block Service](https://github.com/Lamden/lamden_block_service).
 
+**If you are working on the v2 network, please use v2 branch**
+
 ### Prepare
 **These are install steps for UBUNTU 18.04**
 
