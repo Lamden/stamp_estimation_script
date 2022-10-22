@@ -6,5 +6,5 @@ WORKDIR /app
 COPY . .
 RUN pip install -r requirements.txt
 RUN pip install lmdb motor
-RUN pip install git+https://github.com/Lamden/contracting.git
+RUN pip install git+https://github.com/Lamden/contracting.git@dev-staging
 ENTRYPOINT ["python","./run.py"]
