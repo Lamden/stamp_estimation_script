@@ -30,6 +30,7 @@ class BlockserviceDriver(Driver):
             res = decode(v['value'])
             if res is None:
                 return v['value']
+            return res
         except Exception as e:
             logging.exception(e)
             return v['value']
