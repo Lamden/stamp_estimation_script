@@ -19,6 +19,9 @@ class BlockserviceDriver(Driver):
         if isinstance(v['value'], int):
             return v['value']
 
+        if isinstance(v['value'], list):
+            return v['value']
+
         if decode(v['value']) is None:
             return v['value']
 
