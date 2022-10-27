@@ -1,3 +1,7 @@
+import imp
+
+
+import logging
 from contracting.db.driver import Driver
 from contracting.db.encoder import encode, decode
 import pymongo
@@ -18,14 +22,18 @@ class BlockserviceDriver(Driver):
         
         if isinstance(v['value'], int):
             return v['value']
-
+        
         if isinstance(v['value'], list):
             return v['value']
-
-        if decode(v['value']) is None:
+        
+        try:
+            res = decode(v['value'])
+            if res is None:
+                return v['value']
+            return res
+        except Exception as e:
+            logging.exception(e)
             return v['value']
-
-        return decode(v['value'])
 
     def set(self, key, value):
         # Do nothing to keep readonly.
