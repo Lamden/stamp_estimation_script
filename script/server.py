@@ -31,7 +31,11 @@ def run_server(host="localhost", port=3232, driver = BlockserviceDriver()):
     async def stamps_estimation(sid, data):
         logger.info("client %s, data: %s", sid, data)
         tx = decode(encode(data))
-        output = transaction_executor.execute(tx)
+        try:
+            output = transaction_executor.execute(tx)
+        except Exception as e:
+            output = {'error': str(e)}
+
         return encode(output)
 
 
